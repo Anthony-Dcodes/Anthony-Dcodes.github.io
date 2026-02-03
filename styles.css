@@ -27,6 +27,30 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Animated background - breathing vignette */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    animation: vignetteBreathe 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes vignetteBreathe {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
 /* Theme toggle input (hidden) */
 .theme-toggle-input {
     display: none;
@@ -59,6 +83,15 @@ body:has(#theme-toggle:checked) .icon-sun {
 
 body:has(#theme-toggle:checked) .icon-moon {
     display: block;
+}
+
+body:has(#theme-toggle:checked)::before {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.08) 100%
+    );
 }
 
 /* Header & Navigation */
@@ -174,12 +207,28 @@ section {
     margin-bottom: 25px;
 }
 
-/* Skills */
+/* Skills Section */
+.skills-section {
+    margin-top: 25px;
+}
+
+.skill-category {
+    margin-bottom: 12px;
+}
+
+.category-label {
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    opacity: 0.6;
+    text-transform: lowercase;
+    margin-bottom: 6px;
+    display: block;
+}
+
 .skills {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 20px;
 }
 
 .skill {
@@ -188,12 +237,47 @@ section {
     border: 1px solid var(--border);
     color: var(--text-primary);
     background: transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Proficiency levels */
+.skill.strong {
+    opacity: 1;
+    border-style: solid;
+}
+
+.skill.familiar {
+    opacity: 0.7;
+    border-style: dashed;
+}
+
+.skill.touched {
+    opacity: 0.5;
+    border-style: dotted;
 }
 
 .skill:hover {
     border-color: var(--accent);
     color: var(--accent);
+    opacity: 1;
+}
+
+/* Quick info (languages & work preferences) */
+.quick-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.info-line {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.info-label {
+    color: var(--text-primary);
+    opacity: 0.6;
 }
 
 .date {
@@ -343,6 +427,18 @@ h1::after {
         font-size: 1rem;
     }
 
+    .skills-section {
+        margin-top: 20px;
+    }
+
+    .skill-category {
+        margin-bottom: 10px;
+    }
+
+    .category-label {
+        font-size: 0.65rem;
+    }
+
     .skills {
         gap: 6px;
     }
@@ -350,6 +446,15 @@ h1::after {
     .skill {
         font-size: 0.75rem;
         padding: 3px 8px;
+    }
+
+    .quick-info {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+
+    .info-line {
+        font-size: 0.8rem;
     }
 
     .social-links {
