@@ -12,6 +12,10 @@
     --border: #21262d;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
@@ -20,12 +24,112 @@ body {
     background-color: var(--bg-primary);
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Theme toggle input (hidden) */
+.theme-toggle-input {
+    display: none;
+}
+
+/* Light mode styles using :has() */
+body:has(#theme-toggle:checked) {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --text-primary: #57606a;
+    --text-bright: #24292f;
+    --accent: #1a7f37;
+    --border: #d0d7de;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+body:has(#theme-toggle:checked) header {
+    background-color: var(--bg-primary);
+    border-bottom-color: var(--border);
+}
+
+body:has(#theme-toggle:checked) main {
+    background-color: var(--bg-primary);
+}
+
+body:has(#theme-toggle:checked) .icon-sun {
+    display: none;
+}
+
+body:has(#theme-toggle:checked) .icon-moon {
+    display: block;
+}
+
+/* Header & Navigation */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+nav {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-bottom: none;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent);
+    border-bottom: none;
+}
+
+/* Theme toggle button */
+.theme-toggle-label {
+    margin-left: auto;
+    cursor: pointer;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.theme-toggle-label:hover {
+    color: var(--accent);
+}
+
+.icon-sun {
+    display: block;
+}
+
+.icon-moon {
+    display: none;
+}
+
+/* Main content */
 main {
     max-width: 700px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 80px 20px 60px;
+    background-color: var(--bg-primary);
+    transition: background-color 0.3s ease;
+}
+
+/* Hero section */
+.hero {
+    margin-bottom: 20px;
+    padding: 40px 0;
 }
 
 /* Typography */
@@ -50,9 +154,8 @@ p {
     padding: 0;
 }
 
-/* Hero section */
-.hero {
-    margin-bottom: 20px;
+section {
+    scroll-margin-top: 70px;
 }
 
 .intro {
@@ -155,6 +258,38 @@ a:visited {
     border-bottom: none;
 }
 
+/* Social links */
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    border-bottom: none;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.social-link svg {
+    flex-shrink: 0;
+}
+
+.social-link span {
+    font-size: 0.85rem;
+}
+
 /* Footer */
 footer {
     margin-top: 60px;
@@ -182,8 +317,17 @@ h1::after {
         font-size: 13px;
     }
 
+    nav {
+        padding: 12px 15px;
+        gap: 15px;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+    }
+
     main {
-        padding: 40px 15px;
+        padding: 70px 15px 40px;
     }
 
     h1 {
@@ -207,14 +351,43 @@ h1::after {
         font-size: 0.75rem;
         padding: 3px 8px;
     }
+
+    .social-links {
+        gap: 10px;
+    }
+
+    .social-link {
+        padding: 6px 10px;
+    }
+
+    .social-link span {
+        font-size: 0.8rem;
+    }
 }
 
 @media screen and (max-width: 480px) {
+    nav {
+        gap: 10px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+    }
+
     h1 {
         font-size: 1.75rem;
     }
 
     main {
-        padding: 30px 15px;
+        padding: 65px 15px 30px;
+    }
+
+    .social-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .social-link {
+        width: fit-content;
     }
 }
