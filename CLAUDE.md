@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal portfolio website for Antonin Dvoracek (AnthonyDcodes) - a static single-page site hosted on GitHub Pages.
 
+## Constraints
+
+- **HTML/CSS only** - No JavaScript unless absolutely necessary. Keep it simple and lightweight.
+
 ## Development
 
 No build step required. Open `index.html` directly in a browser or use any local server:
@@ -23,9 +27,9 @@ python3 -m http.server 8000        # then visit localhost:8000
 
 ## Design System
 
-- **Font**: Montserrat (Google Fonts)
-- **Colors**: Dark background (#0A192F, #00343f, #000000 conic gradient), whitesmoke text, #64FFDA cyan accent
-- **Animations**: Typing effect on intro text, staggered fade-in sections, loading bar at top, hover transitions on links/projects
+- **Font**: JetBrains Mono (Google Fonts)
+- **Colors**: Dark background (#0d1117), muted grey text (#8b949e), subtle green accent (#3fb950)
+- **Style**: Minimal terminal aesthetic with blinking cursor, clean dividers, subtle hover effects
 
 ## Deployment
 
