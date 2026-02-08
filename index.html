@@ -12,13 +12,22 @@
 <body>
   <!-- Theme toggle (CSS-only) -->
   <input type="checkbox" id="theme-toggle" class="theme-toggle-input">
+  <script>
+    (function() {
+      var t = document.getElementById('theme-toggle');
+      if (localStorage.getItem('theme') === 'light') t.checked = true;
+      t.addEventListener('change', function() {
+        localStorage.setItem('theme', t.checked ? 'light' : 'dark');
+      });
+    })();
+  </script>
 
   <header>
     <nav>
       <a href="#about" class="nav-link">about</a>
+      <a href="#github" class="nav-link">github</a>
       <a href="#experience" class="nav-link">experience</a>
       <a href="#projects" class="nav-link">projects</a>
-      <a href="#github" class="nav-link">github</a>
       <a href="blog.html" class="nav-link">blog</a>
       <a href="#contact" class="nav-link">contact</a>
       <label for="theme-toggle" class="theme-toggle-label" title="Toggle theme">
@@ -81,6 +90,37 @@
       </div>
     </section>
 
+    <section id="github">
+      <h2>> github activity</h2>
+      <div class="github-chart-wrapper">
+        <div class="chart-layout">
+          <div class="chart-day-labels">
+            <span>Mon</span>
+            <span>Wed</span>
+            <span>Fri</span>
+          </div>
+          <div class="chart-scroll-area">
+            <div id="github-chart" class="github-chart">
+              <div id="chart-inner" class="chart-inner">
+                <p class="loading-text">loading...</p>
+              </div>
+            </div>
+            <input type="range" id="chart-slider" class="chart-slider" min="0" max="100" value="100">
+            <div class="chart-legend">
+              <span class="legend-label">activity:</span>
+              <span>Less</span>
+              <span class="legend-cell level-0"></span>
+              <span class="legend-cell level-1"></span>
+              <span class="legend-cell level-2"></span>
+              <span class="legend-cell level-3"></span>
+              <span class="legend-cell level-4"></span>
+              <span>More</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="experience">
       <h2>> experience</h2>
       <p class="date">may 2025 - now</p>
@@ -140,39 +180,20 @@
       <div class="divider"></div>
     </section>
 
-    <section id="github">
-      <h2>> github activity</h2>
-      <div class="github-chart-wrapper">
-        <div class="chart-fade chart-fade-left"></div>
-        <div class="chart-fade chart-fade-right"></div>
-        <div id="github-chart" class="github-chart">
-          <div id="chart-inner" class="chart-inner">
-            <p class="loading-text">loading...</p>
-          </div>
-        </div>
-        <div id="chart-dates" class="chart-dates">
-          <span id="date-left"></span>
-          <span id="date-center"></span>
-          <span id="date-right"></span>
-        </div>
-      </div>
-      <p class="chart-hint">drag to explore</p>
-    </section>
-
     <section id="blog">
       <h2>> blog</h2>
       <div class="blog-links">
-        <a href="blog.html#post-pyspark" class="blog-link-item">
+        <a href="post-pyspark.html" class="blog-link-item">
           <span class="post-date">jan 15, 2026</span>
           <span class="post-title">Why I switched from pandas to PySpark</span>
         </a>
         <div class="divider"></div>
-        <a href="blog.html#post-42prague" class="blog-link-item">
+        <a href="post-42prague.html" class="blog-link-item">
           <span class="post-date">dec 28, 2025</span>
           <span class="post-title">My first month at 42 Prague</span>
         </a>
         <div class="divider"></div>
-        <a href="blog.html#post-ml-production" class="blog-link-item">
+        <a href="post-ml-production.html" class="blog-link-item">
           <span class="post-date">nov 10, 2025</span>
           <span class="post-title">Building ML models that actually get deployed</span>
         </a>
@@ -224,36 +245,58 @@
     const username = 'Anthony-Dcodes';
     const chartInner = document.getElementById('chart-inner');
     const chartContainer = document.getElementById('github-chart');
-    const dateLeft = document.getElementById('date-left');
-    const dateCenter = document.getElementById('date-center');
-    const dateRight = document.getElementById('date-right');
+    const chartSlider = document.getElementById('chart-slider');
 
-    // Fetch contributions from GitHub's GraphQL via a proxy or generate from events
     async function fetchContributions() {
       try {
-        // Fetch public events and aggregate by date
-        const response = await fetch(`https://api.github.com/users/${username}/events/public?per_page=100`);
-        const events = await response.json();
-
-        // Create contribution map from events
         const contributions = {};
-        events.forEach(event => {
-          const date = event.created_at.split('T')[0];
-          contributions[date] = (contributions[date] || 0) + 1;
-        });
+        const currentYear = new Date().getFullYear();
 
-        // Generate last 365 days of data
-        const days = [];
+        // Fetch each year from 2021 to current
+        for (let year = 2021; year <= currentYear; year++) {
+          const resp = await fetch(
+            `https://github-contributions-api.jogruber.de/v4/${username}?y=${year}`
+          );
+          if (resp.ok) {
+            const data = await resp.json();
+            data.contributions.forEach(c => {
+              contributions[c.date] = c.count;
+            });
+          }
+        }
+
+        // Also fetch rolling last year (most authoritative for recent data)
+        const resp = await fetch(
+          `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
+        );
+        if (resp.ok) {
+          const data = await resp.json();
+          data.contributions.forEach(c => {
+            contributions[c.date] = c.count;
+          });
+        }
+
+        // Build days array: from earliest available date to today
+        const allDates = Object.keys(contributions).sort();
+        const startDate = new Date(allDates[0] + 'T00:00:00');
         const today = new Date();
-        for (let i = 364; i >= 0; i--) {
-          const date = new Date(today);
-          date.setDate(date.getDate() - i);
-          const dateStr = date.toISOString().split('T')[0];
+        today.setHours(0, 0, 0, 0);
+
+        // Align start to a Sunday (beginning of week)
+        while (startDate.getDay() !== 0) {
+          startDate.setDate(startDate.getDate() - 1);
+        }
+
+        const days = [];
+        const d = new Date(startDate);
+        while (d <= today) {
+          const dateStr = d.toISOString().split('T')[0];
           days.push({
             date: dateStr,
             count: contributions[dateStr] || 0,
-            dayOfWeek: date.getDay()
+            dayOfWeek: d.getDay()
           });
+          d.setDate(d.getDate() + 1);
         }
 
         renderChart(days);
@@ -263,7 +306,6 @@
     }
 
     function renderChart(days) {
-      // Group by weeks
       const weeks = [];
       let currentWeek = [];
 
@@ -284,71 +326,89 @@
         weeks.push(currentWeek);
       }
 
-      // Find max for color scaling
       const maxCount = Math.max(...days.map(d => d.count), 4);
 
-      // Render SVG
       const cellSize = 12;
       const cellGap = 3;
-      const width = weeks.length * (cellSize + cellGap);
-      const height = 7 * (cellSize + cellGap);
+      const step = cellSize + cellGap;
+      const topPadding = 18;  // space for month labels
+      const bottomPadding = 18; // space for year labels
+      const width = weeks.length * step + 28;
+      const height = topPadding + 7 * step + bottomPadding;
 
       let svg = `<svg width="${width}" height="${height}" class="contribution-svg">`;
 
+      // Month labels on top (skip if too close to previous label)
+      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      let lastMonth = -1;
+      let lastMonthX = -Infinity;
+      const minMonthGap = 36;
+      weeks.forEach((week, weekIndex) => {
+        const firstDay = week.find(d => d !== null);
+        if (!firstDay) return;
+        const date = new Date(firstDay.date + 'T00:00:00');
+        const month = date.getMonth();
+        const x = weekIndex * step;
+        if (month !== lastMonth && x - lastMonthX >= minMonthGap) {
+          lastMonth = month;
+          lastMonthX = x;
+          svg += `<text x="${x}" y="12" class="chart-label month-label">${monthNames[month]}</text>`;
+        }
+      });
+
+      // Year labels on bottom (skip if too close to previous label)
+      let lastYear = -1;
+      let lastYearX = -Infinity;
+      const minYearGap = 42;
+      weeks.forEach((week, weekIndex) => {
+        const firstDay = week.find(d => d !== null);
+        if (!firstDay) return;
+        const date = new Date(firstDay.date + 'T00:00:00');
+        const year = date.getFullYear();
+        const x = weekIndex * step;
+        if (year !== lastYear && x - lastYearX >= minYearGap) {
+          lastYear = year;
+          lastYearX = x;
+          const y = topPadding + 7 * step + 14;
+          svg += `<text x="${x}" y="${y}" class="chart-label year-label">${year}</text>`;
+        }
+      });
+
+      // Contribution cells
       weeks.forEach((week, weekIndex) => {
         week.forEach((day, dayIndex) => {
           if (day === null) return;
-
-          const x = weekIndex * (cellSize + cellGap);
-          const y = dayIndex * (cellSize + cellGap);
+          const x = weekIndex * step;
+          const y = topPadding + dayIndex * step;
           const level = day.count === 0 ? 0 : Math.min(4, Math.ceil((day.count / maxCount) * 4));
-
-          svg += `<rect
-            x="${x}"
-            y="${y}"
-            width="${cellSize}"
-            height="${cellSize}"
-            rx="2"
-            class="contrib-cell level-${level}"
-            data-date="${day.date}"
-            data-count="${day.count}"
-          />`;
+          svg += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" rx="2" class="contrib-cell level-${level}" data-date="${day.date}" data-count="${day.count}"/>`;
         });
       });
 
       svg += '</svg>';
       chartInner.innerHTML = svg;
 
-      // Set initial scroll to show recent activity (right side)
-      chartContainer.scrollLeft = chartContainer.scrollWidth;
-      updateDates();
+      // Scroll to the right (today) after the browser has laid out the SVG
+      requestAnimationFrame(() => {
+        chartContainer.scrollLeft = chartContainer.scrollWidth;
+        syncSlider();
+      });
     }
 
-    function updateDates() {
-      const scrollLeft = chartContainer.scrollLeft;
-      const scrollWidth = chartContainer.scrollWidth;
-      const clientWidth = chartContainer.clientWidth;
-
-      // Calculate visible date range
-      const totalDays = 365;
-      const dayWidth = scrollWidth / (totalDays / 7);
-
-      const leftWeek = Math.floor(scrollLeft / 15);
-      const centerWeek = Math.floor((scrollLeft + clientWidth / 2) / 15);
-      const rightWeek = Math.floor((scrollLeft + clientWidth) / 15);
-
-      const today = new Date();
-
-      const getDateFromWeeksAgo = (weeksFromStart) => {
-        const date = new Date(today);
-        date.setDate(date.getDate() - (52 - weeksFromStart) * 7);
-        return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }).toLowerCase();
-      };
-
-      dateLeft.textContent = getDateFromWeeksAgo(leftWeek);
-      dateCenter.textContent = getDateFromWeeksAgo(centerWeek);
-      dateRight.textContent = getDateFromWeeksAgo(rightWeek);
+    // Slider <-> scroll sync
+    function syncSlider() {
+      const maxScroll = chartContainer.scrollWidth - chartContainer.clientWidth;
+      if (maxScroll > 0) {
+        chartSlider.value = (chartContainer.scrollLeft / maxScroll) * 100;
+      }
     }
+
+    chartSlider.addEventListener('input', () => {
+      const maxScroll = chartContainer.scrollWidth - chartContainer.clientWidth;
+      chartContainer.scrollLeft = (chartSlider.value / 100) * maxScroll;
+    });
+
+    chartContainer.addEventListener('scroll', syncSlider);
 
     // Drag to scroll
     let isDragging = false;
@@ -378,7 +438,6 @@
       const x = e.pageX - chartContainer.offsetLeft;
       const walk = (x - startX) * 2;
       chartContainer.scrollLeft = scrollLeftStart - walk;
-      updateDates();
     });
 
     // Touch support
@@ -391,10 +450,7 @@
       const x = e.touches[0].pageX - chartContainer.offsetLeft;
       const walk = (x - startX) * 2;
       chartContainer.scrollLeft = scrollLeftStart - walk;
-      updateDates();
     });
-
-    chartContainer.addEventListener('scroll', updateDates);
 
     fetchContributions();
   </script>
