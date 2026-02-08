@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Anthony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+  <!-- Theme toggle (CSS-only) -->
+  <input type="checkbox" id="theme-toggle" class="theme-toggle-input">
+
+  <header>
+    <nav>
+      <a href="index.html" class="nav-link">home</a>
+      <a href="index.html#experience" class="nav-link">experience</a>
+      <a href="index.html#projects" class="nav-link">projects</a>
+      <a href="#" class="nav-link nav-active">blog</a>
+      <a href="index.html#contact" class="nav-link">contact</a>
+      <label for="theme-toggle" class="theme-toggle-label" title="Toggle theme">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </label>
+    </nav>
+  </header>
+
+  <main>
+    <section class="blog-page">
+      <h1>$ blog</h1>
+      <p class="tagline">Thoughts on data, code, and learning.</p>
+
+      <!-- Post 1 -->
+      <article class="blog-post" id="post-pyspark">
+        <input type="checkbox" id="post-1" class="post-toggle" checked>
+        <label for="post-1" class="post-header">
+          <span class="post-date">jan 15, 2026</span>
+          <h3 class="post-title">Why I switched from pandas to PySpark</h3>
+          <p class="post-preview">After rewriting 5000 lines of pandas code, here's what I learned about scaling data pipelines...</p>
+          <span class="post-expand">+ read more</span>
+        </label>
+        <div class="post-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+
+          <!-- Comments section -->
+          <div class="comments-section">
+            <h4 class="comments-title">// comments</h4>
+
+            <!-- Existing comments -->
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">data_nerd42</span>
+                <span class="comment-date">jan 16, 2026</span>
+              </div>
+              <p class="comment-text">Great article! I had a similar experience migrating our ETL pipelines. The learning curve was worth it.</p>
+
+              <!-- Reply toggle -->
+              <input type="checkbox" id="reply-1-1" class="reply-toggle">
+              <label for="reply-1-1" class="reply-btn">reply</label>
+              <div class="reply-form">
+                <input type="text" placeholder="your name" class="comment-input">
+                <textarea placeholder="write a reply..." class="comment-textarea"></textarea>
+                <button type="button" class="comment-submit">post reply</button>
+              </div>
+
+              <!-- Nested reply -->
+              <div class="comment reply">
+                <div class="comment-header">
+                  <span class="comment-author">anthony</span>
+                  <span class="comment-date">jan 16, 2026</span>
+                </div>
+                <p class="comment-text">Thanks! The hardest part was convincing the team to make the switch.</p>
+              </div>
+            </div>
+
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">spark_enthusiast</span>
+                <span class="comment-date">jan 17, 2026</span>
+              </div>
+              <p class="comment-text">Have you tried Polars? It's giving Spark a run for its money on single-node workloads.</p>
+
+              <input type="checkbox" id="reply-1-2" class="reply-toggle">
+              <label for="reply-1-2" class="reply-btn">reply</label>
+              <div class="reply-form">
+                <input type="text" placeholder="your name" class="comment-input">
+                <textarea placeholder="write a reply..." class="comment-textarea"></textarea>
+                <button type="button" class="comment-submit">post reply</button>
+              </div>
+            </div>
+
+            <!-- New comment form -->
+            <div class="new-comment">
+              <input type="text" placeholder="your name" class="comment-input">
+              <textarea placeholder="write a comment..." class="comment-textarea"></textarea>
+              <button type="button" class="comment-submit">post comment</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="divider"></div>
+
+      <!-- Post 2 -->
+      <article class="blog-post" id="post-42prague">
+        <input type="checkbox" id="post-2" class="post-toggle">
+        <label for="post-2" class="post-header">
+          <span class="post-date">dec 28, 2025</span>
+          <h3 class="post-title">My first month at 42 Prague</h3>
+          <p class="post-preview">What peer-to-peer learning actually feels like when you're debugging C at 2am...</p>
+          <span class="post-expand">+ read more</span>
+        </label>
+        <div class="post-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vel consectetur interdum, nisl nunc egestas nunc, vitae tincidunt nisl nunc euismod nunc.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+          <div class="comments-section">
+            <h4 class="comments-title">// comments</h4>
+
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">42_student</span>
+                <span class="comment-date">dec 29, 2025</span>
+              </div>
+              <p class="comment-text">The piscine was intense! Which campus are you at?</p>
+
+              <input type="checkbox" id="reply-2-1" class="reply-toggle">
+              <label for="reply-2-1" class="reply-btn">reply</label>
+              <div class="reply-form">
+                <input type="text" placeholder="your name" class="comment-input">
+                <textarea placeholder="write a reply..." class="comment-textarea"></textarea>
+                <button type="button" class="comment-submit">post reply</button>
+              </div>
+            </div>
+
+            <div class="new-comment">
+              <input type="text" placeholder="your name" class="comment-input">
+              <textarea placeholder="write a comment..." class="comment-textarea"></textarea>
+              <button type="button" class="comment-submit">post comment</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="divider"></div>
+
+      <!-- Post 3 -->
+      <article class="blog-post" id="post-ml-production">
+        <input type="checkbox" id="post-3" class="post-toggle">
+        <label for="post-3" class="post-header">
+          <span class="post-date">nov 10, 2025</span>
+          <h3 class="post-title">Building ML models that actually get deployed</h3>
+          <p class="post-preview">The gap between a Jupyter notebook and production is wider than you think...</p>
+          <span class="post-expand">+ read more</span>
+        </label>
+        <div class="post-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+          <p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Cras justo odio, dapibus ac facilisis in.</p>
+          <p>Maecenas faucibus mollis interdum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac.</p>
+
+          <div class="comments-section">
+            <h4 class="comments-title">// comments</h4>
+
+            <p class="no-comments">no comments yet. be the first!</p>
+
+            <div class="new-comment">
+              <input type="text" placeholder="your name" class="comment-input">
+              <textarea placeholder="write a comment..." class="comment-textarea"></textarea>
+              <button type="button" class="comment-submit">post comment</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="divider"></div>
+
+      <a href="index.html" class="back-link">&larr; back to home</a>
+    </section>
+
+    <footer>
+      <p>Thank you for visiting</p>
+    </footer>
+  </main>
+</body>
+</html>

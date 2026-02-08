@@ -378,6 +378,202 @@ a:visited {
     font-size: 0.85rem;
 }
 
+/* GitHub Contribution Chart */
+.github-chart-wrapper {
+    position: relative;
+    margin-top: 20px;
+}
+
+.github-chart {
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    padding: 10px 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.github-chart::-webkit-scrollbar {
+    display: none;
+}
+
+.github-chart.dragging {
+    cursor: grabbing;
+}
+
+.chart-inner {
+    display: inline-block;
+    min-width: 100%;
+}
+
+.contribution-svg {
+    display: block;
+}
+
+/* Contribution cell colors */
+.contrib-cell {
+    fill: var(--border);
+    transition: fill 0.1s ease;
+}
+
+.contrib-cell.level-1 {
+    fill: #0e4429;
+}
+
+.contrib-cell.level-2 {
+    fill: #006d32;
+}
+
+.contrib-cell.level-3 {
+    fill: #26a641;
+}
+
+.contrib-cell.level-4 {
+    fill: #39d353;
+}
+
+/* Light mode contribution colors */
+body:has(#theme-toggle:checked) .contrib-cell {
+    fill: var(--border);
+}
+
+body:has(#theme-toggle:checked) .contrib-cell.level-1 {
+    fill: #9be9a8;
+}
+
+body:has(#theme-toggle:checked) .contrib-cell.level-2 {
+    fill: #40c463;
+}
+
+body:has(#theme-toggle:checked) .contrib-cell.level-3 {
+    fill: #30a14e;
+}
+
+body:has(#theme-toggle:checked) .contrib-cell.level-4 {
+    fill: #216e39;
+}
+
+/* Gradient fades */
+.chart-fade {
+    position: absolute;
+    top: 0;
+    bottom: 25px;
+    width: 60px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.chart-fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-primary) 0%, transparent 100%);
+}
+
+.chart-fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-primary) 0%, transparent 100%);
+}
+
+/* Date labels */
+.chart-dates {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 60px 0;
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    opacity: 0.5;
+}
+
+.chart-hint {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    opacity: 0.4;
+    margin-top: 8px;
+}
+
+.loading-text,
+.no-activity {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    opacity: 0.5;
+    font-style: italic;
+}
+
+/* Blog Links (on main page) */
+.blog-links {
+    margin-top: 15px;
+}
+
+.blog-link-item {
+    display: block;
+    padding: 12px 0;
+    text-decoration: none;
+    border-bottom: none;
+    transition: color 0.2s ease;
+}
+
+.blog-link-item:hover .post-title {
+    color: var(--accent);
+}
+
+.blog-link-item .post-date {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.blog-link-item .post-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    transition: color 0.2s ease;
+}
+
+.view-all-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    border-bottom: none;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.view-all-link:hover {
+    opacity: 1;
+    border-bottom: none;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    border-bottom: none;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--accent);
+    border-bottom: none;
+}
+
+/* Blog page specific */
+.blog-page {
+    padding-top: 20px;
+}
+
+.blog-page h1 {
+    margin-bottom: 10px;
+}
+
+.nav-active {
+    color: var(--accent);
+}
+
 /* Blog Section */
 .blog-post {
     margin-bottom: 0;
