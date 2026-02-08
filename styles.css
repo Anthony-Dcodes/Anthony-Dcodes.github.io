@@ -14,6 +14,9 @@
 
 html {
     scroll-behavior: smooth;
+    background-color: var(--bg-primary);
+    transition: background-color 0.3s ease;
+    will-change: background-color;
 }
 
 body {
@@ -25,6 +28,7 @@ body {
     margin: 0;
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
+    will-change: background-color;
 }
 
 /* Animated background - breathing vignette */
@@ -44,11 +48,35 @@ body::before {
     animation: vignetteBreathe 10s ease-in-out infinite;
     pointer-events: none;
     z-index: -1;
+    transition: background 0.3s ease, opacity 0.3s ease;
 }
 
 @keyframes vignetteBreathe {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 0.8; }
+}
+
+/* Scrollbar theming */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--bg-primary);
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--text-primary);
 }
 
 /* Theme toggle input (hidden) */
@@ -57,6 +85,7 @@ body::before {
 }
 
 /* Light mode styles using :has() */
+html:has(#theme-toggle:checked),
 body:has(#theme-toggle:checked) {
     --bg-primary: #ffffff;
     --bg-secondary: #f6f8fa;
@@ -157,6 +186,13 @@ main {
     padding: 80px 20px 60px;
     background-color: var(--bg-primary);
     transition: background-color 0.3s ease;
+}
+
+/* Wider main for blog pages */
+main:has(.blog-page),
+main:has(.blog-post-with-toc),
+main:has(.blog-post-page) {
+    max-width: 900px;
 }
 
 /* Hero section */
@@ -652,6 +688,8 @@ body:has(#theme-toggle:checked) .legend-cell.level-4 { background: #216e39; }
 /* Blog page specific */
 .blog-page {
     padding-top: 20px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .blog-page h1 {
@@ -687,7 +725,7 @@ body:has(#theme-toggle:checked) .legend-cell.level-4 { background: #216e39; }
 
 /* Blog post page (individual posts) */
 .blog-post-page {
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 .blog-post-page .post-date {
@@ -728,6 +766,8 @@ footer {
     text-align: center;
     color: var(--text-primary);
     opacity: 0.7;
+    background-color: var(--bg-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Subtle cursor blink on h1 */
@@ -860,5 +900,105 @@ h1::after {
 
     .post-title {
         font-size: 0.9rem;
+    }
+}
+
+/* Blog post images */
+.post-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 20px 0;
+    display: block;
+}
+
+/* Blog post with TOC layout */
+.blog-post-with-toc {
+    display: flex;
+    gap: 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 20px;
+}
+
+.blog-post-with-toc article {
+    flex: 1;
+    min-width: 0; /* Allow flex item to shrink below content size */
+}
+
+/* TOC Sidebar */
+.toc-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-left: 20px;
+}
+
+.toc-nav {
+    border-left: 2px solid var(--border);
+    padding-left: 20px;
+}
+
+.toc-header {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    opacity: 0.6;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+.toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.toc-list li {
+    margin-bottom: 10px;
+}
+
+.toc-link {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-bottom: none;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    opacity: 0.6;
+    line-height: 1.5;
+}
+
+.toc-link:hover {
+    opacity: 1;
+    color: var(--accent);
+}
+
+.toc-link.active {
+    color: var(--accent);
+    opacity: 1;
+    font-weight: 700;
+}
+
+/* Mobile: hide TOC sidebar */
+@media screen and (max-width: 1100px) {
+    .blog-post-with-toc {
+        display: block;
+        padding: 0;
+    }
+
+    .toc-sidebar {
+        display: none;
+    }
+
+    .blog-post-with-toc article {
+        max-width: 100%;
     }
 }
