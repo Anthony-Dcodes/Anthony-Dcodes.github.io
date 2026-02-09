@@ -55,27 +55,27 @@
 
         <p>Dear reader, this is my first blog post. First of all I wanna say there was no AI used to generate any of the text, there-for the quality might seem questionable.</p>
 
-        <img src="julia_3.gif" alt="Julia set fractal animation" class="post-image">
+        <video src="julia_3.mp4" autoplay loop muted playsinline class="post-image"></video>
 
         <h2 id="what-is-fractal">1. What is fractal?</h2>
         <p>So fractal is basically quite cool psychadelic picture that displays repeating patterns no matter how far you zoom in (be ready to get stopped when using conventional data types like int or long).</p>
 
-        <img src="mandlebrot.gif" alt="Mandelbrot set zoom" class="post-image">
+        <video src="mandelbrot.mp4" autoplay loop muted playsinline class="post-image"></video>
 
         <h2 id="implementation">2. Implementation</h2>
         <p>You get this picture by iterating on a function some far smarted people created / discovered. This function takes as an input pixel coordinates and real and imaginary number. You keep increasing the real and imaginary number after each iteration and observe if the result of the equation is increasing or staying "small" (less then 2). If the result stays "small" it is inside the fractal space. You have to perform this iterative calculation for every pixel of your screen. When the pixel "escapes" the fractal space, you can create gradient coloring based on how far the pixel is from the fractal (how fast it escapes). There are different types of fractals, some of the most known are Mandelbrot set or Julia set.</p>
 
-        <img src="julia_1.gif" alt="Julia set variation 1" class="post-image">
+        <video src="julia_1.mp4" autoplay loop muted playsinline class="post-image"></video>
 
         <h2 id="x11-server">3. X11 server</h2>
         <p>Currently I am attending 42 Prague coding school and this was one the projects in curriculum. I was given minilibx library that builds on top of well know X11 server. X11 server is software that is used to render pixels / windows on screen mainly in Unix systems, like Linux. Its beginning is in the 1980s and lately it is being replaced by Wayland though compatibility is kept on many Linux distros.</p>
 
-        <img src="julia_2.gif" alt="Julia set variation 2" class="post-image">
+        <video src="julia_2.mp4" autoplay loop muted playsinline class="post-image"></video>
 
         <h2 id="what-was-hard">4. What was hard</h2>
         <p>The hardest part when implementing it was to understand the math behind fractal space and then the gradient coloring which I don't really get anyways, but it works.</p>
 
-        <img src="julia_4.gif" alt="Julia set variation 4" class="post-image">
+        <video src="julia_4.mp4" autoplay loop muted playsinline class="post-image"></video>
 
         <h2 id="final-notes">5. Final notes</h2>
         <p>Forgive any mistakes I made in explanations and the text quality, it has been long since I wrote something. I will be grateful for any comments, regarding this text, just don't be a jerk, thanks!</p>
