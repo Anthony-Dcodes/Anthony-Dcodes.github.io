@@ -83,6 +83,25 @@
         <p>You can check out my code implemented in C here: <a href="https://github.com/Anthony-Dcodes/42-prague-core/tree/main/fractol">fractol on GitHub</a></p>
 
         <a href="../../blog.html" class="back-link">&larr; back to blog</a>
+
+        <div class="comments-section">
+          <h2 class="comments-title">// comments</h2>
+          <script src="https://giscus.app/client.js"
+            data-repo="Anthony-Dcodes/Anthony-Dcodes.github.io"
+            data-repo-id="R_kgDONl6KHw"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONl6KH84C2Dzp"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
       </article>
 
       <!-- TOC sidebar - uncomment to restore
@@ -156,5 +175,19 @@
     })();
   </script>
   -->
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('change', () => {
+      const theme = toggle.checked ? 'light' : 'dark_dimmed';
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme } } },
+          'https://giscus.app'
+        );
+      }
+    });
+  </script>
 </body>
 </html>
